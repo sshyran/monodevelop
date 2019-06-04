@@ -740,6 +740,7 @@
     <Compile Include="CoreExtensions.IEnumerable.cs" />
     <Compile Include="CoreExtensions.Memoize.cs" />
     <Compile Include="CoreExtensions.EventHandlers.cs" />
+    <Compile Include="MonoDevelop.Projects\ItemFrameworkConfigurationSelector.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="BuildVariables.cs.in" />
