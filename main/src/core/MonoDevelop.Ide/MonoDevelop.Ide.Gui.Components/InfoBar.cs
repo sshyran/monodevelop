@@ -25,8 +25,6 @@
 // THE SOFTWARE.
 using System;
 using System.Collections.Generic;
-using System.Collections.Immutable;
-using System.Linq;
 using Xwt;
 using Xwt.Drawing;
 
@@ -104,6 +102,9 @@ namespace MonoDevelop.Ide.Gui.Components
 					mainBox.PackStart (toAdd);
 			}
 
+			//sets it as expanded horizontally, OnBoundChanged we determine other properties
+			descriptionLabel.ExpandHorizontal = true;
+
 			mainBox.PackEnd (closeButton);
 
 			if (IdeApp.Preferences == null || IdeApp.Preferences.UserInterfaceTheme == Theme.Light) {
@@ -136,11 +137,9 @@ namespace MonoDevelop.Ide.Gui.Components
 			if (descriptionLabel.Size.Width < minTextSize.Width) {
 				TooltipText = descriptionLabel.Text;
 				descriptionLabel.Ellipsize = EllipsizeMode.End;
-				descriptionLabel.ExpandHorizontal = true;
 			} else {
 				TooltipText = string.Empty;
 				descriptionLabel.Ellipsize = EllipsizeMode.None;
-				descriptionLabel.ExpandHorizontal = false;
 			}
 			base.OnBoundsChanged ();
 		}
