@@ -4479,7 +4479,7 @@ namespace MonoDevelop.Projects
 
 			// Use FileService.AsyncEvents for file created event since this does not run on the UI thread. This
 			// avoids blocking the UI thread when many files are created.
-			registration = FileService.Notifications.WatchForFilesCreated (BaseDirectory, args => OnFileCreated (this, args));
+			registration = FileService.Registration.WatchCreated (BaseDirectory, args => OnFileCreated (args));
 
 			// Use FileService.AsyncEvents for file deleted events to be consistent. Without this a deletion event
 			// would not update the Solution window until the IDE gets focus again.
@@ -4528,7 +4528,7 @@ namespace MonoDevelop.Projects
 			});
 		}
 
-		void OnFileCreated (object sender, FileEventArgs e)
+		void OnFileCreated (FileEventArgs e)
 		{
 			if (Runtime.IsMainThread)
 				return;
