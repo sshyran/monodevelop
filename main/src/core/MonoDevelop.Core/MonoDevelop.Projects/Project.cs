@@ -4469,6 +4469,7 @@ namespace MonoDevelop.Projects
 			}
 		}
 
+		IDisposable registration;
 		void CreateFileWatcher ()
 		{
 			DisposeFileWatcher ();
@@ -4478,7 +4479,8 @@ namespace MonoDevelop.Projects
 
 			// Use FileService.AsyncEvents for file created event since this does not run on the UI thread. This
 			// avoids blocking the UI thread when many files are created.
-			FileService.AsyncEvents.FileCreated += OnFileCreated;
+			registration = FileService.Notifications.WatchForFilesCreated (BaseDirectory, args => OnFileCreated (this, args));
+
 			// Use FileService.AsyncEvents for file deleted events to be consistent. Without this a deletion event
 			// would not update the Solution window until the IDE gets focus again.
 			FileService.AsyncEvents.FileRemoved += OnFileDeleted;
@@ -4489,7 +4491,9 @@ namespace MonoDevelop.Projects
 
 		void DisposeFileWatcher ()
 		{
-			FileService.AsyncEvents.FileCreated -= OnFileCreated;
+			registration?.Dispose ();
+			registration = null;
+
 			FileService.AsyncEvents.FileRemoved -= OnFileDeleted;
 			FileService.AsyncEvents.FileRenamed -= OnFileRenamed;
 		}

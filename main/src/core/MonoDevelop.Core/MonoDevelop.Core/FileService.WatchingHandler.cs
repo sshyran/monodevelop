@@ -57,6 +57,10 @@ namespace MonoDevelop.Core
 
 						// Find if the node has any registration, and if it does, recursively notify parents
 						var node = watchingTree.FindNodeContaining (path);
+						if (node == null)
+							continue;
+
+
 						while (node != null) {
 							if (node.IsLive) {
 								foreach (var id in node.Ids) {

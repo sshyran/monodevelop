@@ -758,6 +758,7 @@ namespace MonoDevelop.Core
 		public static event EventHandler<FileEventArgs> FileCreated;
 		static void OnFileCreated (FileEventArgs args)
 		{
+			Notifications.NotifyIfNeeded (args);
 			AsyncEvents.OnFileCreated (args);
 
 			foreach (FileEventInfo fi in args) {
