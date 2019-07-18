@@ -194,10 +194,7 @@ namespace MonoDevelop.DotNetCore
 		Task ShowCannotExecuteDotNetCoreApplicationDialog ()
 		{
 			return Runtime.RunInMainThread (() => {
-				var dialog = new DotNetCoreNotInstalledInfoBar {
-					Message = GettextCatalog.GetString (".NET Core is required to run this application.")
-				};
-				dialog.Prompt ();
+				CreateInfoBarInstance ().Prompt ();
 			});
 		}
 
@@ -209,14 +206,18 @@ namespace MonoDevelop.DotNetCore
 
 				Project.ParentSolution.ExtendedProperties [ShownDotNetCoreSdkInstalledExtendedPropertyName] = "true";
 
-				var dialog = new DotNetCoreNotInstalledInfoBar {
-					IsUnsupportedVersion = unsupportedSdkVersion,
-					RequiredDotNetCoreVersion = DotNetCoreVersion.Parse (Project.TargetFramework.Id.Version),
-					CurrentDotNetCorePath = sdkPaths.MSBuildSDKsPath,
-					IsNetStandard = Project.TargetFramework.Id.IsNetStandard ()
-				};
-				dialog.Prompt ();
+				CreateInfoBarInstance (unsupportedSdkVersion).Prompt ();
 			});
+		}
+
+		DotNetCoreNotInstalledInfoBar CreateInfoBarInstance (bool unsupportedSdkVersion = false)
+		{
+			return new DotNetCoreNotInstalledInfoBar {
+				IsUnsupportedVersion = unsupportedSdkVersion,
+				RequiredDotNetCoreVersion = DotNetCoreVersion.Parse (Project.TargetFramework.Id.Version),
+				CurrentDotNetCorePath = sdkPaths.MSBuildSDKsPath,
+				IsNetStandard = Project.TargetFramework.Id.IsNetStandard ()
+			};
 		}
 
 		bool ShownDotNetCoreSdkNotInstalledDialogForSolution ()

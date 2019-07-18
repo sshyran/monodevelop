@@ -46,7 +46,7 @@ namespace MonoDevelop.DotNetCore
 				new InfoBarItem (GettextCatalog.GetString ("Download .NET Core"), InfoBarItemKind.Hyperlink, DownloadButtonClicked, true)
 				};
 			
-			if (IsUnsupportedVersion || IsNetStandard) //for .net standard we'll show generic message
+			if (IsUnsupportedVersion || IsNetStandard || RequiredDotNetCoreVersion == null) //for .net standard we'll show generic message
 				Message = DotNetCoreSdk.GetNotSupportedVersionMessage ();
 			else {
 				Message = DotNetCoreSdk.GetNotSupportedVersionMessage (RequiredDotNetCoreVersion.OriginalString);
