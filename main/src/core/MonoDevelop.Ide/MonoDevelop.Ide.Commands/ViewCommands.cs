@@ -137,8 +137,10 @@ namespace MonoDevelop.Ide.Commands
 	}
 
 	// MonoDevelop.Ide.Commands.ViewCommands.LayoutList
-	public class LayoutListHandler : CommandHandler
+	public class LayoutListHandler : IdeCommandHandler
 	{
+		protected override CommandInfoStates States => CommandInfoStates.HiddenWhenIdeIsHidden;
+
 		static internal readonly Dictionary<string, string> NameMapping;
 
 		static LayoutListHandler ()

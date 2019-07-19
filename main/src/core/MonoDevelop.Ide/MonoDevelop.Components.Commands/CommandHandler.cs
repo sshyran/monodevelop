@@ -32,6 +32,46 @@ using System.Threading.Tasks;
 
 namespace MonoDevelop.Components.Commands
 {
+	/// <summary>
+	/// This commandhandler base class handles the logic to operate in commands based in Ide states in some Post upate operations
+	/// </summary>
+	public abstract class IdeCommandHandler : CommandHandler
+	{
+		[Flags]
+		protected enum CommandInfoStates
+		{
+			None = 0,
+			DisabledWhenIdeIsHidden = 1 << 0,
+			HiddenWhenIdeIsHidden = 2 << 0
+		}
+
+		protected abstract CommandInfoStates States { get; }
+	
+		internal override void OnPostUpdate (CommandArrayInfo info)
+		{
+			if (Ide.IdeApp.Workbench.Visible) {
+				return;
+			}
+			foreach (var item in info) {
+				if (States.HasFlag (CommandInfoStates.DisabledWhenIdeIsHidden))
+					item.Enabled = false;
+				if (States.HasFlag (CommandInfoStates.HiddenWhenIdeIsHidden))
+					item.Visible = false;
+			}
+		}
+
+		internal override void OnPostUpdate (CommandInfo info)
+		{
+			if (Ide.IdeApp.Workbench.Visible) {
+				return;
+			}
+			if (States.HasFlag (CommandInfoStates.DisabledWhenIdeIsHidden))
+				info.Enabled = false;
+			if (States.HasFlag (CommandInfoStates.HiddenWhenIdeIsHidden))
+				info.Visible = false;
+		}
+	}
+
 	public abstract class CommandHandler
 	{
 		internal void InternalRun (object dataItem)
@@ -47,11 +87,23 @@ namespace MonoDevelop.Components.Commands
 		internal void InternalUpdate (CommandInfo info)
 		{
 			Update (info);
+			OnPostUpdate (info);
 		}
 	
 		internal void InternalUpdate (CommandArrayInfo info)
 		{
 			Update (info);
+			OnPostUpdate (info);
+		}
+
+		internal virtual void OnPostUpdate (CommandInfo info)
+		{
+			//to implement
+		}
+
+		internal virtual void OnPostUpdate (CommandArrayInfo info)
+		{
+			//to implement
 		}
 
 		/// <summary>

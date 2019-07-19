@@ -152,8 +152,10 @@ namespace MonoDevelop.Debugger
 		}
 	}
 	
-	class DebugApplicationHandler: CommandHandler
+	class DebugApplicationHandler: IdeCommandHandler
 	{
+		protected override CommandInfoStates States => CommandInfoStates.DisabledWhenIdeIsHidden;
+
 		protected override void Run ()
 		{
 			var dlg = new DebugApplicationDialog ();
@@ -201,8 +203,10 @@ namespace MonoDevelop.Debugger
 		}
 	}
 	
-	class AttachToProcessHandler: CommandHandler
+	class AttachToProcessHandler: IdeCommandHandler
 	{
+		protected override CommandInfoStates States => CommandInfoStates.DisabledWhenIdeIsHidden;
+
 		protected override void Run ()
 		{
 			var dlg = new AttachToProcessDialog ();
@@ -308,8 +312,10 @@ namespace MonoDevelop.Debugger
 		}
 	}
 	
-	class ClearAllBreakpointsHandler: CommandHandler
+	class ClearAllBreakpointsHandler: IdeCommandHandler
 	{
+		protected override CommandInfoStates States => CommandInfoStates.DisabledWhenIdeIsHidden;
+
 		protected override void Run ()
 		{
 			var breakpoints = DebuggingService.Breakpoints;
@@ -503,8 +509,10 @@ namespace MonoDevelop.Debugger
 		}
 	}
 
-	class NewBreakpointHandler: CommandHandler
+	class NewBreakpointHandler: IdeCommandHandler
 	{
+		protected override CommandInfoStates States => CommandInfoStates.DisabledWhenIdeIsHidden;
+
 		protected override void Run ()
 		{
 			BreakEvent bp = null;
@@ -523,8 +531,10 @@ namespace MonoDevelop.Debugger
 		}
 	}
 
-	class NewFunctionBreakpointHandler: CommandHandler
+	class NewFunctionBreakpointHandler: IdeCommandHandler
 	{
+		protected override CommandInfoStates States => CommandInfoStates.DisabledWhenIdeIsHidden;
+
 		protected override void Run ()
 		{
 			BreakEvent bp = null;
@@ -543,8 +553,10 @@ namespace MonoDevelop.Debugger
 		}
 	}
 
-	class NewCatchpointHandler: CommandHandler
+	class NewCatchpointHandler: IdeCommandHandler
 	{
+		protected override CommandInfoStates States => CommandInfoStates.DisabledWhenIdeIsHidden;
+
 		protected override void Run ()
 		{
 			BreakEvent bp = null;
@@ -563,8 +575,10 @@ namespace MonoDevelop.Debugger
 		}
 	}
 
-	class ShowBreakpointsHandler: CommandHandler
+	class ShowBreakpointsHandler: IdeCommandHandler
 	{
+		protected override CommandInfoStates States => CommandInfoStates.DisabledWhenIdeIsHidden;
+
 		protected override void Run ()
 		{
 			if (!IdeApp.Workbench.Visible) {
